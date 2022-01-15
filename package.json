@@ -9,7 +9,8 @@
 	"author": "Chrome Villager",
 	"license": "ISC",
 	"dependencies": {
-		"discord.js": "^12.3.1"
+		"discord.js": "^12.3.1",
+		"dotenv": "^12.0.3"
 	},
 	"devDependencies": {
 		"@rollup/plugin-typescript": "^6.0.0",
