@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "resolveJsonModule": true,
+        "target": "esnext",
+        "strictBindCallApply": true,
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "types": [
+            "node"
+        ]
+    },
+    "include": [
+        "./src/**/*.ts"
+    ]
+}
