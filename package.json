@@ -9,7 +9,9 @@
 	"author": "Chrome Villager",
 	"license": "ISC",
 	"dependencies": {
-		"discord.js": "^12.3.1",
+		"@discordjs/rest": "^0.2.0-canary.0",
+		"discord-api-types": "^0.26.1",
+		"discord.js": "^12.5.3",
 		"dotenv": "^12.0.3"
 	},
 	"devDependencies": {

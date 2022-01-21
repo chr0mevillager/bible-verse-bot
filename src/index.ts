@@ -1,21 +1,29 @@
 import dotenv from "dotenv";
-const Discord = require('discord.js');
 import {
-	//Discord,
+	Client,
+	Collection,
+	Intents,
 	Message,
 	MessageEmbed,
 	MessageAttachment,
 	Channel,
 	TextChannel,
 } from 'discord.js';
+import { SlashCommandBuilder }  from "@discordjs/builders";
 import path from "path";
 dotenv.config();
-const client = new Discord.Client();
+const client = new Client(/*{ intents: [Intents.FLAGS.GUILDS] }*/);
 
-// Embed List https://discordjs.guide/popular-topics/embeds.html#embed-preview
+client.commands = new Collection();
+
+let pingCommand = new SlashCommandBuilder()
+	.setName("ping")
+	.setDescription("Does a thing.");
+
+client.commands.set(pingCommand.name, pingCommand);
 
 client.once('ready', () => {
-	console.log("The message was sent! (Probably)");
+	console.log("It's alive! (Probably)");
 });
 
 client.login(process.env.DISCORD_AUTH);

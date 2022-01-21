@@ -10,3 +10,5 @@
 
 ## Documentation
 [Click here to see the docs](https://discord.js.org/#/)
+
+[Message Embed Docs](https://discordjs.guide/popular-topics/embeds.html#embed-preview)
