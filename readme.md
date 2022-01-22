@@ -1,7 +1,7 @@
 # Bible Verses Bot
 
 ## Add To Servers
-[Click here to add the bot to a server](https://prod.liveshare.vsengsaas.visualstudio.com/join?9D9543C083E47D39CDF502C127A20D3F598E)
+[Click here to add the bot to a server](https://discord.com/oauth2/authorize?client_id=932020112733642814&scope=bot&permissions=8)
 
 ## Use
 ```bash

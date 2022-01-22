@@ -1,29 +1,60 @@
 import dotenv from "dotenv";
 import {
-	Client,
-	Collection,
-	Intents,
-	Message,
-	MessageEmbed,
-	MessageAttachment,
-	Channel,
-	TextChannel,
+    Client,
+    Intents,
+    Interaction,
+    CommandInteraction,
+    ApplicationCommandDataResolvable,
+    CacheType,
 } from 'discord.js';
 import { SlashCommandBuilder }  from "@discordjs/builders";
-import path from "path";
 dotenv.config();
-const client = new Client(/*{ intents: [Intents.FLAGS.GUILDS] }*/);
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
-client.commands = new Collection();
+interface CustomCommand {
+    data: ApplicationCommandDataResolvable;
+    execute(interaction: CommandInteraction<CacheType>): void | Promise<void>;
+}
 
-let pingCommand = new SlashCommandBuilder()
-	.setName("ping")
-	.setDescription("Does a thing.");
+let commands: Record<string, CustomCommand> = {
+    ping: {
+        data: {
+            name: "ping",
+            description: "Does a thing.",
+        },
+        async execute(interaction) {
+            await interaction.reply({
+                content: "Pong!",
+                ephemeral: true,
+            });
+        },
+    },
+};
 
-client.commands.set(pingCommand.name, pingCommand);
+client.on("interactionCreate", async (interaction) => {
+    if(interaction.isCommand()) {
+        const command = commands[interaction.commandName];
+        try {
+            await command.execute(interaction);
+        } catch(err) {
+            console.error(err);
+            await interaction.reply({
+                content: "There was an error executing this command",
+                ephemeral: true,
+            });
+        }
+    }
+});
 
 client.once('ready', () => {
-	console.log("It's alive! (Probably)");
+    console.log("It's alive! (Probably)");
+
+    const guild = client.guilds.cache.get(process.env.SLASH_COMMAND_TESTING_GUILD);
+    if(guild) {
+        Object.values(commands).forEach((command) => {
+            guild.commands.create(command.data);
+        });
+    }
 });
 
 client.login(process.env.DISCORD_AUTH);
