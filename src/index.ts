@@ -36,6 +36,7 @@ client.on("interactionCreate", async (interaction) => {
 
 client.once('ready', () => {
     console.log("It's alive! (Probably)");
+    client.user.setActivity('/help', { type: 'LISTENING' });
 
     const guild = client.guilds.cache.get(process.env.SLASH_COMMAND_TESTING_GUILD);
     if(guild) {
