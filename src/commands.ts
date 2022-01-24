@@ -44,8 +44,8 @@ let commands: Record<string, CustomCommand> = {
                                 },
                                 { name: '\u200B', value: '\u200B' },
                                 {
-                                    name: "`/setup` `< Channel >` `[ Time ]`",
-                                    value: "Use this command to set me up! Set the `< Channel >` to whatever channel you want me to post scriptures in, and optionally set the `< Time >` of day that you would like the scripture to be sent (in UTC)."
+                                    name: "`/setup` `< Channel >` `[ Time ]` `[ Ping Role ]`",
+                                    value: "Use this command to set me up! Set the `< Channel >` to whatever channel you want me to post scriptures in, and optionally set the `< Time >` of day that you would like the scripture to be sent (in UTC). You can also add a role to be pinged every time a verse is posted (also optional)."
                                 },
                             )
                     ],
@@ -62,6 +62,24 @@ let commands: Record<string, CustomCommand> = {
                 });
             },
         },
+    //
+    info: {
+        data: {
+            name: "info",
+            description: "See information about me!",
+        },
+        async execute(interaction) {
+            await interaction.reply({
+                embeds: [
+                    new MessageEmbed()
+                        .setColor("#389af0")
+                        .setTitle("Information:")
+                        .setDescription("For information regarding updates, verse selection, and more, visit [my server](https://google.com)!")
+                ],
+                ephemeral: true,
+            });
+        },
+    },
     //
     feedback: {
         data: {
