@@ -9,8 +9,16 @@ import {
     MessageEmbed,
     ColorResolvable,
     User,
+    Message,
+    MessageAttachment,
+	Channel,
+    DMChannel,
+    TextChannel,
+    Guild,
+    ThreadChannel,
 } from 'discord.js';
 import { SlashCommandBuilder }  from "@discordjs/builders";
+import { ChannelType } from "discord-api-types";
 dotenv.config();
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
@@ -135,21 +143,65 @@ let commands: Record<string, CustomCommand> = {
             ],
         },
         async execute(interaction) {
-            interaction.commandName
-            let content = "Your suggestion is:\n"
-            //console.log(interaction.options.get("verse", true));
-            if (interaction.options.getSubcommand() === "verse") {
-                content += interaction.options.get("verse", true).value! as string;
-            } else if (interaction.options.getSubcommand() === "bug") {
-                content += interaction.options.get("bug-description", true).value! as string;
-            } else if (interaction.options.getSubcommand() === "idea") {
-                content += interaction.options.get("idea-description", true).value! as string;
-            }
 
             let userID = interaction.user.id;
             let guildID = interaction.guildId;
             let guildSize = interaction.guild.memberCount;
             let interactionID = interaction.id;
+
+            let content = "Your suggestion is:\n"
+            //console.log(interaction.options.get("verse", true));
+            if (interaction.options.getSubcommand() === "verse") {
+                content += interaction.options.get("verse", true).value! as string;
+                (client.channels.cache.find((channel) => (channel as any).id === "934973278215372851") as any).send({
+                    embeds: [
+                        new MessageEmbed()
+                            .setColor("#389af0")
+                            .setTitle("Feedback:")
+                            .setDescription(content)
+                            .setFooter({
+                                text: "Server ID: " + guildID + "\n"
+                                + "User ID: " + userID + "\n"
+                                + "Server Size: " + guildSize + "\n"
+                                + "Message ID: " + interactionID,
+                            })
+                    ],
+                });
+            } else if (interaction.options.getSubcommand() === "bug") {
+                content += interaction.options.get("bug-description", true).value! as string;
+                // (client.channels.cache.get("934973318396780604") as TextChannel).send({
+                //     embeds: [
+                //         new MessageEmbed()
+                //             .setColor("#389af0")
+                //             .setTitle("Feedback:")
+                //             .setDescription(content)
+                //             .setFooter({
+                //                 text: "Server ID: " + guildID + "\n"
+                //                 + "User ID: " + userID + "\n"
+                //                 + "Server Size: " + guildSize + "\n"
+                //                 + "Message ID: " + interactionID,
+                //             })
+                //     ],
+                // });
+            } else if (interaction.options.getSubcommand() === "idea") {
+                content += interaction.options.get("idea-description", true).value! as string;
+                // (client.channels.cache.get("934973303662186496") as TextChannel).send({
+                    
+                //     embeds: [
+                //         new MessageEmbed()
+                //             .setColor("#389af0")
+                //             .setTitle("Feedback:")
+                //             .setDescription(content)
+                //             .setFooter({
+                //                 text: "Server ID: " + guildID + "\n"
+                //                 + "User ID: " + userID + "\n"
+                //                 + "Server Size: " + guildSize + "\n"
+                //                 + "Message ID: " + interactionID,
+                //             })
+                //     ],
+                // });
+            }
+            
             //Send embed
             await interaction.reply({
                 //content: "Pong!",
