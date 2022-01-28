@@ -1,27 +1,9 @@
 import dotenv from "dotenv";
+//import message_log from "./message_log";
 import {
-    Client,
-    Intents,
-    Interaction,
-    CommandInteraction,
-    ApplicationCommandDataResolvable,
-    CacheType,
     MessageEmbed,
-    ColorResolvable,
-    User,
-    Message,
-    MessageAttachment,
-	Channel,
-    TextChannel,
 } from 'discord.js';
-import { SlashCommandBuilder }  from "@discordjs/builders";
-import { ChannelType } from "discord-api-types";
 dotenv.config();
-
-// interface CustomCommand {
-//     data: ApplicationCommandDataResolvable;
-//     execute(interaction: CommandInteraction<CacheType>): void | Promise<void>;
-// }
 
 let	feedback = {
     data: {
@@ -74,11 +56,16 @@ let	feedback = {
         let guildID = interaction.guildId;
         let guildSize = interaction.guild.memberCount;
         let interactionID = interaction.id;
+        let sub_message = "Server ID: " + guildID + "\n"
+                        + "User ID: " + userID + "\n"
+                        + "Server Size: " + guildSize + "\n"
+                        + "Message ID: " + interactionID;
 
         let content = "Your suggestion is:\n"
         //console.log(interaction.options.get("verse", true));
         if (interaction.options.getSubcommand() === "verse") {
             content += interaction.options.get("verse", true).value! as string;
+            //message_log("934973278215372851", "Feedback:", content, sub_message, "#389af0")
             // (client.channels.cache.find((channel) => (channel as any).id === "934973278215372851") as any).send({
             //     embeds: [
             //         new MessageEmbed()

@@ -1,28 +1,8 @@
 import dotenv from "dotenv";
 import {
-    Client,
-    Intents,
-    Interaction,
-    CommandInteraction,
-    ApplicationCommandDataResolvable,
-    CacheType,
     MessageEmbed,
-    ColorResolvable,
-    User,
-    Message,
-    MessageAttachment,
-	Channel,
-    TextChannel,
 } from 'discord.js';
-import { SlashCommandBuilder }  from "@discordjs/builders";
-import { ChannelType } from "discord-api-types";
 dotenv.config();
-// const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-
-interface CustomCommand {
-    data: ApplicationCommandDataResolvable;
-    execute(interaction: CommandInteraction<CacheType>): void | Promise<void>;
-}
 
 let	help = {
 	data: {
