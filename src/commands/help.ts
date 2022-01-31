@@ -1,10 +1,11 @@
-import dotenv from "dotenv";
 import {
-    MessageEmbed,
+	MessageEmbed,
 } from 'discord.js';
-dotenv.config();
+import {
+	CustomCommand,
+} from "../types";
 
-let	help = {
+let	help: CustomCommand = {
 	data: {
 		name: "help",
 		description: "See documentation about my commands and find my support server!",

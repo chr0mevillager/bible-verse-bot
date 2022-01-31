@@ -1,24 +1,16 @@
-import dotenv from "dotenv";
 import {
-    CommandInteraction,
-    ApplicationCommandDataResolvable,
-    CacheType,
-} from 'discord.js';
-dotenv.config();
-
-interface CustomCommand {
-    data: ApplicationCommandDataResolvable;
-    execute(interaction: CommandInteraction<CacheType>): void | Promise<void>;
-}
+	CustomCommand,
+} from "../types";
 
 import feedback from "./feedback";
 import help from "./help";
 import info from "./info";
 
+/**A list of slash commands*/
 const commands: Record<string, CustomCommand> = {
-    feedback,
-    help,
-    info,
+	feedback,
+	help,
+	info,
 };
 
 export default commands;
