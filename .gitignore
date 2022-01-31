@@ -5,3 +5,4 @@ node_modules
 yarn-error.log
 .env
 template_command.ts
+server_info.json

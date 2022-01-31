@@ -1,6 +1,8 @@
 import "./vars";
 import { client } from "./client";
 import commands from "./commands";
+import * as database from "./adapters/database";
+import verseSendFactory from "./sendVerse";
 
 client.on("interactionCreate", async (interaction) => {
 	if(interaction.isCommand()) {
@@ -16,6 +18,16 @@ client.on("interactionCreate", async (interaction) => {
 		}
 	}
 });
+
+// let jobs = {};
+// let CronJob = require("cron").CronJob;
+// let job = new CronJob(database.getServerPreferences("934943871010484294"), verseSendFactory(database.getServerPreferences("934943871010484294")), null, true, "America/Colorado");
+// job.start();
+
+// jobs = {
+// 	jobs,
+// 	"e": job,
+// }
 
 client.once('ready', () => {
 	console.log("It's alive! (Probably)");

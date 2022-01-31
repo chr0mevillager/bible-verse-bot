@@ -116,12 +116,6 @@ let	feedback: CustomCommand = {
 					.setColor("#389af0")
 					.setTitle("Feedback has been sent!")
 					.setDescription(content)
-					// .setFooter({
-					// 	text: "Server ID: " + guildID + "\n"
-					// 	+ "User ID: " + userID + "\n"
-					// 	+ "Server Size: " + guildSize + "\n"
-					// 	+ "Message ID: " + interactionID,
-					// })
 			],
 			ephemeral: true,
 		});
