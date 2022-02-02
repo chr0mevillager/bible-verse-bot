@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 
-let jsonFile = fs.readFile("./src/serverInfo.json", "utf8")
+let jsonFile = fs.readFile("./src/server_info.json", "utf8")
 	.then((jsonStr) => {
 		return JSON.parse(jsonStr);
 	});

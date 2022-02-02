@@ -1,8 +1,9 @@
-import "./vars";
-import { client } from "./client";
+import "./exports/vars";
+import { client } from "./exports/client";
 import commands from "./commands";
 import * as database from "./adapters/database";
-import verseSendFactory from "./sendVerse";
+import verseSendFactory from "./exports/sendVerse";
+import startJob from "./exports/cronJob";
 
 client.on("interactionCreate", async (interaction) => {
 	if(interaction.isCommand()) {
@@ -19,14 +20,30 @@ client.on("interactionCreate", async (interaction) => {
 	}
 });
 
-// let jobs = {};
-// let CronJob = require("cron").CronJob;
-// let job = new CronJob(database.getServerPreferences("934943871010484294"), verseSendFactory(database.getServerPreferences("934943871010484294")), null, true, "America/Colorado");
-// job.start();
-
-// jobs = {
-// 	jobs,
-// 	"e": job,
+/**Action options include "all", "time", "channel ID", and "role ID" */
+// async function getPreferences(action) {
+// 	let servers = [];
+// 	await database.listServers()
+// 		.then((result) => {
+// 			servers = result;
+// 		});
+// 	let serverPreferences = [];
+// 	for (let i = 0; i < servers.length; i++) {
+// 		database.getServerPreferences(servers[i])
+// 			.then((result) => {
+// 				if (action == "all") {
+// 					serverPreferences.push(result);
+// 					console.log(serverPreferences);
+// 					return serverPreferences;
+// 				} else {
+// 					// return JSON.parse(result)[action];
+// 					// result = JSON.parse(result);
+// 					console.log(result[action]);
+// 					return result[action];
+// 				}
+// 			});
+// 	}
+// 	return serverPreferences;
 // }
 
 client.once('ready', () => {

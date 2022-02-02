@@ -3,7 +3,7 @@ import {
 } from 'discord.js';
 import {
 	CustomCommand,
-} from "../types";
+} from "../exports/types";
 
 let	info: CustomCommand = {
 	data: {

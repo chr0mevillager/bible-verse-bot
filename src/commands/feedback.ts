@@ -4,10 +4,10 @@ import {
 } from 'discord.js';
 import {
 	CustomCommand,
-} from "../types";
+} from "../exports/types";
 import {
 	client,
-} from "../client";
+} from "../exports/client";
 
 let	feedback: CustomCommand = {
 	data: {
