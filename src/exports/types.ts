@@ -14,4 +14,6 @@ export interface ServerPrefs {
 	time: string,
 	roleID: string,
 	timezone: string,
+	hour: string,
+	minute: string,
 }

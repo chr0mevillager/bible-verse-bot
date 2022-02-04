@@ -4,6 +4,9 @@ import commands from "./commands";
 import * as database from "./adapters/database";
 import verseSendFactory from "./exports/sendVerse";
 import * as cronJob from "./exports/cronJob";
+import {
+	ServerPrefs,
+} from "./exports/types";
 
 client.on("interactionCreate", async (interaction) => {
 	if (interaction.isCommand()) {
@@ -20,12 +23,26 @@ client.on("interactionCreate", async (interaction) => {
 	}
 });
 
+client.on("guildCreate", async (join) => {
+	let serverInfo: ServerPrefs = {
+		channelID: "No Channel",
+		time: "No Time",
+		roleID: "No Role",
+		timezone: "No Timezone",
+		hour: "No hour",
+		minute: "No minute",
+	};
+	await database.registerServerPreferences(join.id, serverInfo);
+})
+
 async function startCronJobs() {
 	let servers = await database.listServers();
 	for (let i = 0; i < servers.length; i++) {
-		database.getServerPreferences(servers[i])
+		await database.getServerPreferences(servers[i])
 			.then((serverPrefs) => {
-				cronJob.default(servers[i], serverPrefs["channelID"], serverPrefs["timezone"], serverPrefs["time"]);
+				if (serverPrefs["channelID"] != "No Channel" && serverPrefs["time"] != "No Time" && serverPrefs["roleID"] != "No Role" && serverPrefs["timezone"] != "No Timezone") {
+					cronJob.default(servers[i], serverPrefs["channelID"], serverPrefs["timezone"], serverPrefs["time"]);
+				}
 			});
 	}
 }

@@ -2,6 +2,7 @@ import {
 	MessageEmbed,
 	GuildBasedChannel,
 	TextChannel,
+	Interaction,
 } from 'discord.js';
 import {
 	APIInteractionDataResolvedChannel,
@@ -16,6 +17,7 @@ import {
 	ServerPrefs,
 } from "../exports/types";
 import * as cronJob from "../exports/cronJob";
+import verseSendFactory from '../exports/sendVerse';
 
 function generateArray(numElements: number) {
 	const arr = [];
@@ -68,10 +70,10 @@ let setup: CustomCommand = {
 								description: "What minute it should be posted on",
 								type: 3,
 								required: true,
-								choices: generateArray(12).map((i) => ({
-									name: String(i * 5),
-									value: String(i * 5),
-								})),
+								// choices: generateArray(12).map((i) => ({
+								// 	name: String(i * 5),
+								// 	value: String(i * 5),
+								// })),
 							},
 							{
 								name: "hour",
@@ -99,7 +101,7 @@ let setup: CustomCommand = {
 							{
 								name: "group",
 								description: "A role that can be mentioned",
-								type: "ROLE",
+								type: 8,
 								required: true,
 							},
 						],
@@ -154,14 +156,11 @@ let setup: CustomCommand = {
 		],
 	},
 	async execute(interaction) {
-		//Send message
-
-		let subCommand = interaction.options.getSubcommand();
-
+		//Send message error messages
 		let requestedChannel = (interaction.options.getChannel("channel") as any);
 		let requestedRole = (interaction.options.getRole("group") as any);
-		if (interaction.options.getSubcommand() == "channel" || interaction.options.getSubcommand() == "all") {
-			if (client.channels.cache.find((channel) => (channel as any).id === requestedChannel) as any != ChannelType.GuildText) {
+		if (interaction.options.getSubcommand() == "channel" || interaction.options.getSubcommand() == "everything") {
+			if (requestedChannel.type != "GUILD_TEXT") {
 				await interaction.reply({
 					embeds: [
 						new MessageEmbed()
@@ -173,31 +172,84 @@ let setup: CustomCommand = {
 				});
 				return;
 			}
+		} else if (interaction.options.getSubcommand() == "time" || interaction.options.getSubcommand() == "everything") {
+			if (!interaction.options.getString("timezone").match(/(^[a-z]{3,4}$)|(^[A-Z]3$)/gi)) {
+				await interaction.reply({
+					embeds: [
+						new MessageEmbed()
+							.setColor("#389af0")
+							.setTitle("Invalid settings!")
+							.setDescription("Please set the `timezone` setting to be a valid timezone.")
+					],
+					ephemeral: true,
+				});
+				return;
+			}
 		}
+
+		//Add info
+		//Declare empty variables
+		let channel = "No Channel";
+		let time = "No Time";
+		let minute = "No Minute";
+		let hour = "No Hour";
+		let role = "No Role";
+		let timezone = "No timezone";
+
+		//Check and replace old prefs
+		await database.getServerPreferences(interaction.guildId)
+			.then((serverPrefs) => {
+				if (serverPrefs["channelID"] != channel) channel = serverPrefs["channelID"];
+				if (serverPrefs["roleID"] != role) role = serverPrefs["roleID"];
+				if (serverPrefs["timezone"] != timezone) timezone = serverPrefs["timezone"];
+				if (serverPrefs["minute"] != minute) {
+					time = serverPrefs["time"];
+					minute = serverPrefs["minute"];
+					hour = serverPrefs["hour"];
+				}
+			})
+
+		//Check and replace variables we are wrighting to
+		if (requestedChannel) channel = requestedChannel.id;
+		if (requestedRole) role = requestedRole.id;
+		if (interaction.options.getString("timezone")) timezone = interaction.options.getString("timezone");
+		if (interaction.options.getString("minute")) {
+			time = interaction.options.getString("minute") + " " + interaction.options.getString("hour") + " * * *";
+			minute = interaction.options.getString("minute");
+			hour = interaction.options.getString("hour");
+		}
+
+		//Declare and register server prefs
+		let serverInfo: ServerPrefs = {
+			channelID: channel,
+			time: time,
+			roleID: role,
+			timezone: timezone,
+			hour: hour,
+			minute: minute,
+		};
+
+		await database.registerServerPreferences(interaction.guildId, serverInfo);
+
+		//End/Start job
+		if (channel != "No Channel" && time != "No Time" && role != "No role" && timezone != "No timezone") {
+			cronJob.default(interaction.guildId, role, timezone, time);
+		}
+
+		//Send Message
 		await interaction.reply({
 			embeds: [
 				new MessageEmbed()
 					.setColor("#389af0")
 					.setTitle("Your settings are updated!")
 					.setDescription(
-						"Channel: <#" + requestedChannel.id + ">\n" +
-						"Time: " + interaction.options.getString("hour") + ":" + interaction.options.getString("minute") + " (" + interaction.options.getString("timezone") + ")\n" +
-						"Pinged group: <@&" + requestedRole.id + ">"
+						"Channel: <#" + serverInfo["channelID"] + ">\n" +
+						"Time: " + serverInfo["hour"] + ":" + serverInfo["minute"] + " (" + serverInfo["timezone"] + ")\n" +
+						"Pinged group: <@&" + serverInfo["roleID"] + ">"
 					)
 			],
 			ephemeral: true,
 		});
-		//Add info
-		let serverInfo: ServerPrefs = {
-			channelID: requestedChannel.id,
-			time: interaction.options.getString("minute") + " " + interaction.options.getString("hour") + " * * *",
-			roleID: requestedRole.id,
-			timezone: interaction.options.getString("timezone"),
-		};
-		await database.registerServerPreferences(interaction.guildId, serverInfo);
-		//End/Start job
-
-		cronJob.default(interaction.guildId, requestedChannel.id, interaction.options.getString("timezone"), /*interaction.options.getString("minute")*/ "22" + " " + interaction.options.getString("hour") + " * * *");
 	}
 }
 export default setup;
