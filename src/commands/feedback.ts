@@ -1,13 +1,6 @@
-//import message_log from "../message_log";
-import {
-	MessageEmbed,
-} from 'discord.js';
-import {
-	CustomCommand,
-} from "../exports/types";
-import {
-	client,
-} from "../exports/client";
+import { MessageEmbed } from 'discord.js';
+import { CustomCommand } from "../exports/types";
+import { client } from "../exports/client";
 
 let	feedback: CustomCommand = {
 	data: {
@@ -96,7 +89,7 @@ let	feedback: CustomCommand = {
 		} else if (interaction.options.getSubcommand() === "idea") {
 			content += interaction.options.get("idea-description", true).value! as string;
 			(client.channels.cache.find((channel) => (channel as any).id === "934973303662186496") as any).send({
-				
+
 				embeds: [
 					new MessageEmbed()
 						.setColor("#389af0")
@@ -108,7 +101,7 @@ let	feedback: CustomCommand = {
 				],
 			});
 		}
-		
+
 		//Send embed
 		await interaction.reply({
 			embeds: [

@@ -1,6 +1,4 @@
-import {
-	CustomCommand,
-} from "../exports/types";
+import { CustomCommand } from "../exports/types";
 
 import feedback from "./feedback";
 import help from "./help";

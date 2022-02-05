@@ -8,6 +8,7 @@ import {
 	ServerPrefs,
 } from "./exports/types";
 
+//Commands
 client.on("interactionCreate", async (interaction) => {
 	if (interaction.isCommand()) {
 		const command = commands[interaction.commandName];
@@ -23,6 +24,7 @@ client.on("interactionCreate", async (interaction) => {
 	}
 });
 
+//Make file for each server
 client.on("guildCreate", async (join) => {
 	let serverInfo: ServerPrefs = {
 		channelID: "No Channel",
@@ -35,6 +37,7 @@ client.on("guildCreate", async (join) => {
 	await database.registerServerPreferences(join.id, serverInfo);
 })
 
+//Start old jobs
 async function startCronJobs() {
 	let servers = await database.listServers();
 	for (let i = 0; i < servers.length; i++) {
@@ -47,6 +50,7 @@ async function startCronJobs() {
 	}
 }
 
+//On login
 client.once('ready', () => {
 	console.log("It's alive! (Probably)");
 	client.user.setActivity('/help', { type: 'LISTENING' });
@@ -59,4 +63,5 @@ client.once('ready', () => {
 	}
 });
 
+//Login
 client.login(process.env.DISCORD_AUTH);

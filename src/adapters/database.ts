@@ -1,7 +1,5 @@
 import { promises as fs } from "fs";
-import {
-	ServerPrefs,
-} from "../exports/types";
+import { ServerPrefs } from "../exports/types";
 
 const fileLoc = "./src/server_info.json";
 

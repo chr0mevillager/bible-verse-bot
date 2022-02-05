@@ -10,19 +10,4 @@ export default async function startJob(serverID: string, channelID: string, time
 	}
 
 	jobs[serverID] = new CronJob(time, await verseSendFactory(channelID), null, true, timeZone);
-
-	//CronJob(time, verseSendFactory(channelID), null, true, timeZone).stop();
-	// let job = [
-	// 	serverID
-	// ]
-	// for (let i = 0; i < 1; i++) {
-	// 	job.push(new CronJob(time, verseSendFactory(channelID), null, true, timeZone));
-	// }
-	// job[1].start();
-
-	// jobs = {
-	// 	jobs,
-	// 	serverID: job,
-	// }
-	console.log(jobs[serverID]);
 }

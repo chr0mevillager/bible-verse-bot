@@ -8,16 +8,12 @@ import {
 	APIInteractionDataResolvedChannel,
 	ChannelType,
 } from "discord-api-types";
-import {
-	CustomCommand,
-} from "../exports/types";
+import { CustomCommand } from "../exports/types";
 import { client } from "../exports/client";
 import * as database from "../adapters/database";
-import {
-	ServerPrefs,
-} from "../exports/types";
-import * as cronJob from "../exports/cronJob";
+import cronJob from "../exports/cronJob";
 import verseSendFactory from '../exports/sendVerse';
+import { ServerPrefs } from "../exports/types";
 
 function generateArray(numElements: number) {
 	const arr = [];

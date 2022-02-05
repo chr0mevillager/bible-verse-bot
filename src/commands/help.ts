@@ -1,9 +1,5 @@
-import {
-	MessageEmbed,
-} from 'discord.js';
-import {
-	CustomCommand,
-} from "../exports/types";
+import { MessageEmbed } from 'discord.js';
+import { CustomCommand } from "../exports/types";
 
 let	help: CustomCommand = {
 	data: {
