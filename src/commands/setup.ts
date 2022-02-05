@@ -233,7 +233,7 @@ let setup: CustomCommand = {
 
 		//End/Start job
 		if (channel != "No Channel" && time != "No Time" && role != "No role" && timezone != "No timezone") {
-			cronJob.default(interaction.guildId, role, timezone, time);
+			cronJob.default(interaction.guildId, channel, timezone, time);
 		}
 
 		//Send Message
