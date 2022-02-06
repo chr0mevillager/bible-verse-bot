@@ -1,11 +1,24 @@
 import { client } from "./client";
 import { MessageEmbed } from "discord.js";
+import verses from "./verses";
+import * as database from "../adapters/database";
+import { ServerPrefs } from "./types";
+import nextVerse from "./nextVerse"
 
-async function verseSendFactory(channelId: string) {
+async function verseSendFactory(verse: number, serverID: string, channelID: string) {
 	return () => {
-		let channel = client.channels.cache.find((channel) => channel.id === channelId);
+		nextVerse(serverID);
+		let channel = client.channels.cache.find((channel) => channel.id === channelID);
 		if (channel && channel.type === "GUILD_TEXT") {
-			channel.send("test");
+			channel.send({
+				embeds: [
+					new MessageEmbed()
+						.setColor("#389af0")
+						.setTitle(verses[verse].text)
+						.setFooter({text: verses[verse].title + " " + verses[verse].translation})
+						.setDescription("")
+				]
+			});
 		}
 	};
 }

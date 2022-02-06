@@ -11,7 +11,7 @@ import {
 import { CustomCommand } from "../exports/types";
 import { client } from "../exports/client";
 import * as database from "../adapters/database";
-import cronJob from "../exports/cronJob";
+import * as cronJob from "../exports/cronJob";
 import verseSendFactory from '../exports/sendVerse';
 import { ServerPrefs } from "../exports/types";
 
@@ -86,6 +86,24 @@ let setup: CustomCommand = {
 								description: "3 Letter abriviation",
 								type: 3,
 								required: true,
+								// choices: [
+								// 	{
+								// 		name: "PST",
+								// 		value: "PST"
+								// 	},
+								// 	{
+								// 		name: "MST",
+								// 		value: "MST"
+								// 	},
+								// 	{
+								// 		name: "CST",
+								// 		value: "CST"
+								// 	},
+								// 	{
+								// 		name: "EST",
+								// 		value: "EST"
+								// 	}
+								// ]
 							}
 						],
 					},
@@ -191,6 +209,7 @@ let setup: CustomCommand = {
 		let hour = "No Hour";
 		let role = "No Role";
 		let timezone = "No timezone";
+		let verse = 0;
 
 		//Check and replace old prefs
 		await database.getServerPreferences(interaction.guildId)
@@ -203,6 +222,7 @@ let setup: CustomCommand = {
 					minute = serverPrefs["minute"];
 					hour = serverPrefs["hour"];
 				}
+				if (serverPrefs["verse"] != verse) verse = serverPrefs["verse"];
 			})
 
 		//Check and replace variables we are wrighting to
@@ -223,13 +243,14 @@ let setup: CustomCommand = {
 			timezone: timezone,
 			hour: hour,
 			minute: minute,
+			verse: verse,
 		};
 
 		await database.registerServerPreferences(interaction.guildId, serverInfo);
 
 		//End/Start job
 		if (channel != "No Channel" && time != "No Time" && role != "No role" && timezone != "No timezone") {
-			cronJob.default(interaction.guildId, channel, timezone, time);
+			cronJob.default(interaction.guildId);
 		}
 
 		//Send Message

@@ -16,4 +16,5 @@ export interface ServerPrefs {
 	timezone: string,
 	hour: string,
 	minute: string,
+	verse: number,
 }

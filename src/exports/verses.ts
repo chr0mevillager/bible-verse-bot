@@ -4,7 +4,7 @@
 // 	text: "",
 // },
 
-export array verses = [
+let verses = [
 	{
 		title: "Isaiah 40:31",
 		translation: "NIV",
@@ -46,3 +46,5 @@ export array verses = [
 		text: "Your words are so powerful that they will kill or give life, and the talkative person will reap the consequences.",
 	},
 ]
+
+export default verses;
