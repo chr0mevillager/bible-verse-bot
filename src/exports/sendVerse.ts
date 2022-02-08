@@ -12,7 +12,7 @@ async function verseSendFactory(verse: number, serverID: string, channelID: stri
 		if (channel && channel.type === "GUILD_TEXT") {
 			if (pingGroup != "No Role") {
 				channel.send("<@&" + pingGroup + ">");
-			}
+		}
 			channel.send({
 				embeds: [
 					new MessageEmbed()
