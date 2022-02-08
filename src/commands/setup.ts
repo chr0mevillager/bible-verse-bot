@@ -66,10 +66,10 @@ let setup: CustomCommand = {
 								description: "What minute it should be posted on",
 								type: 3,
 								required: true,
-								// choices: generateArray(12).map((i) => ({
-								// 	name: String(i * 5),
-								// 	value: String(i * 5),
-								// })),
+								choices: generateArray(12).map((i) => ({
+									name: String(i * 5),
+									value: String(i * 5),
+								})),
 							},
 							{
 								name: "hour",
@@ -86,24 +86,24 @@ let setup: CustomCommand = {
 								description: "3 Letter abriviation",
 								type: 3,
 								required: true,
-								// choices: [
-								// 	{
-								// 		name: "PST",
-								// 		value: "PST"
-								// 	},
-								// 	{
-								// 		name: "MST",
-								// 		value: "MST"
-								// 	},
-								// 	{
-								// 		name: "CST",
-								// 		value: "CST"
-								// 	},
-								// 	{
-								// 		name: "EST",
-								// 		value: "EST"
-								// 	}
-								// ]
+								choices: [
+									{
+										name: "PST",
+										value: "PST"
+									},
+									{
+										name: "MST",
+										value: "MST"
+									},
+									{
+										name: "CST",
+										value: "CST"
+									},
+									{
+										name: "EST",
+										value: "EST"
+									}
+								],
 							}
 						],
 					},
@@ -158,6 +158,24 @@ let setup: CustomCommand = {
 						description: "3 Letter abriviation",
 						type: 3,
 						required: true,
+						choices: [
+							{
+								name: "PST",
+								value: "PST"
+							},
+							{
+								name: "MST",
+								value: "MST"
+							},
+							{
+								name: "CST",
+								value: "CST"
+							},
+							{
+								name: "EST",
+								value: "EST"
+							}
+						],
 					},
 					{
 						name: "group",
@@ -254,19 +272,41 @@ let setup: CustomCommand = {
 		}
 
 		//Send Message
-		await interaction.reply({
-			embeds: [
-				new MessageEmbed()
-					.setColor("#389af0")
-					.setTitle("Your settings are updated!")
-					.setDescription(
-						"Channel: <#" + serverInfo["channelID"] + ">\n" +
-						"Time: " + serverInfo["hour"] + ":" + serverInfo["minute"] + " (" + serverInfo["timezone"] + ")\n" +
-						"Pinged group: <@&" + serverInfo["roleID"] + ">"
-					)
-			],
-			ephemeral: true,
-		});
+
+		let displayMinute = serverInfo["minute"]
+		if (serverInfo["minute"].length == 1) {
+			displayMinute = "0" + serverInfo["minute"];
+		}
+
+		if (serverInfo["roleID"] == "934268740470706176") {
+			await interaction.reply({
+				embeds: [
+					new MessageEmbed()
+						.setColor("#389af0")
+						.setTitle("Your settings are updated!")
+						.setDescription(
+							"Channel: <#" + serverInfo["channelID"] + ">\n" +
+							"Time: " + serverInfo["hour"] + ":" + displayMinute + " (" + serverInfo["timezone"] + ")\n" +
+							"Pinged group: @everyone"
+						)
+				],
+				ephemeral: true,
+			});
+		} else {
+			await interaction.reply({
+				embeds: [
+					new MessageEmbed()
+						.setColor("#389af0")
+						.setTitle("Your settings are updated!")
+						.setDescription(
+							"Channel: <#" + serverInfo["channelID"] + ">\n" +
+							"Time: " + serverInfo["hour"] + ":" + displayMinute + " (" + serverInfo["timezone"] + ")\n" +
+							"Pinged group: <@&" + serverInfo["roleID"] + ">"
+						)
+				],
+				ephemeral: true,
+			});
+		}
 	}
 }
 export default setup;
