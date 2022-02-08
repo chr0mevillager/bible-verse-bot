@@ -24,7 +24,7 @@ let verses = [
 		title: "Psalms 73:26",
 		translation: "NIV",
 		text: "My health may fail, and my spirit may grow weak, but God remains the strength of my heart; he is mine forever."
-	}
+	},
 	{
 		title: "Joshua 1:9",
 		translation: "NLT",
@@ -34,7 +34,7 @@ let verses = [
 		title: "Proverbs 27:17",
 		translation: "NLT",
 		text: "As iron sharpens iron, so a friend sharpens a friend.",
-	}
+	},
 	{
 		title: "Hebrews 13:8",
 		translation: "TPT",
