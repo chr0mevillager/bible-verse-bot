@@ -24,6 +24,6 @@ export default async function startJob(serverID: string) {
 				verse: serverPrefs["verse"],
 			};
 	});
-	jobs[serverID] = new CronJob(serverInfo.time, await verseSendFactory(serverInfo.verse, serverID, serverInfo.channelID), null, true, serverInfo.timezone);
+	jobs[serverID] = new CronJob(serverInfo.time, await verseSendFactory(serverInfo.verse, serverID, serverInfo.channelID, serverInfo.roleID), null, true, serverInfo.timezone);
 	await database.registerServerPreferences(serverID, serverInfo);
 }

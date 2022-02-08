@@ -5,11 +5,14 @@ import * as database from "../adapters/database";
 import { ServerPrefs } from "./types";
 import nextVerse from "./nextVerse"
 
-async function verseSendFactory(verse: number, serverID: string, channelID: string) {
+async function verseSendFactory(verse: number, serverID: string, channelID: string, pingGroup: string) {
 	return () => {
 		nextVerse(serverID);
 		let channel = client.channels.cache.find((channel) => channel.id === channelID);
 		if (channel && channel.type === "GUILD_TEXT") {
+			if (pingGroup != "No Role") {
+				channel.send("<@&" + pingGroup + ">");
+			}
 			channel.send({
 				embeds: [
 					new MessageEmbed()

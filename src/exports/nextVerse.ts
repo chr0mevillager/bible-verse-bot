@@ -6,7 +6,6 @@ async function nextVerse(serverID) {
 	let serverInfo: ServerPrefs;
 	await database.getServerPreferences(serverID)
 		.then((serverPrefs) => {
-			console.log(verses.length + " < " + serverPrefs["verse"]);
 			if (verses.length > serverPrefs["verse"] + 1) {
 				serverInfo = {
 					channelID: serverPrefs["channelID"],
