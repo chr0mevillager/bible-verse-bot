@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import { ServerPrefs } from "../exports/types";
 
-const fileLoc = "./src/server_info.json";
+const fileLoc = "./persist/server_info.json";
 
 let jsonFile = fs.readFile(fileLoc, "utf8")
 	.then((jsonStr) => {

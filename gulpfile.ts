@@ -23,16 +23,18 @@ gulp.task('bundleTS', () => {
         .on('bundle', (bundle) => rollupCache = bundle)
         .pipe(source('index.js'))
         .pipe(gulp.dest('dist'))
-    ;
+        ;
 });
 
 gulp.task('copyProjectFiles', () => {
     return gulp.src([
         'package.json',
         'yarn.lock',
+        'Dockerfile',
+        '.env',
     ])
         .pipe(gulp.dest('dist'))
-    ;
+        ;
 });
 
 gulp.task('default', gulp.parallel([

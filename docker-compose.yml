@@ -1,0 +1,12 @@
+version: '3'
+services:
+  discordbot:
+    user: node
+    build:
+      context: dist
+    restart: unless-stopped
+    volumes:
+      - "jsondb:/app/persist"
+
+volumes:
+  jsondb:
